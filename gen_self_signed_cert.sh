@@ -15,10 +15,12 @@ if [ "$1" == "" || "$1" == "--help" ]; then
     printf "${YELLOW}Ex: gen_self_signed_cert.sh my_cert ${END_COLOR}\n"
     exit 1
 else
-    sudo ${OPENSSL_CMD} req -x509 -newkey rsa:2048 -keyout $SSL_DIR/private/"$1" .key -nodes -out $SSL_DIR/"$1".cer -days 365 -config $SSL_DIR/openssl.conf
+    sudo ${OPENSSL_CMD} req -x509 -newkey rsa:2048 -keyout $SSL_DIR/"$1".key -nodes -out $SSL_DIR/"$1".cer -days 365 -config $SSL_DIR/openssl.conf
 fi
 
-printf "${YELLOW}Resetting Permissions.${END_COLOR}\n"
-sudo chown root:webadmins -R /etc/httpd/ssl
-sudo chmod 664 $SSL_DIR/"$1".cer
-sudo chmod 664 $SSL_DIR/private/"$1".key
+if [ $? == 0 ]; then
+    printf "${YELLOW}Resetting Permissions.${END_COLOR}\n"
+    sudo chown root:webadmins -R /etc/httpd/ssl
+    sudo chmod 664 $SSL_DIR/"$1".cer
+    sudo chmod 664 $SSL_DIR/private/"$1".key
+fi

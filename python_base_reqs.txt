@@ -3,7 +3,8 @@ datetime
 tzlocal
 colorama
 ipython
-mysqlclient
-mysql-connector-python
+# mysqlclient
+# mysql-connector-python
 pylint
-autopep8
+black
+# autopep8

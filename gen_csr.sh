@@ -7,20 +7,29 @@ CYAN='\e[0;36m'
 LIGHT_GRAY='\e[0;37m'
 END_COLOR='\e[0m'
 
-SSL_DIR="/etc/httpd/ssl"
+SSL_DIR="/usr/share/scripts/csr"
 OPENSSL_CMD="/usr/bin/openssl"
 
-if [ "$1" == "" || "$1" == "--help" ]; then
-    printf "${RED}Must specify cert name as a parameter.${END_COLOR}\n"
-    printf "${YELLOW}Ex: gen_csr.sh my_cert${END_COLOR}\n"
+if [[ "$1" == "" || "$1" == "--help" ]]; then
+    printf "${RED}ERROR: ${CYAN}Must specify cert name as a parameter.${END_COLOR}\n"
+    printf "${CYAN}Example: ${YELLOW}./gen_csr.sh my_cert${END_COLOR}\n"
     exit 1
 else
-    printf "${YELLOW}Generating Certificate Signing Request...${END_COLOR}\n"
-    sudo ${OPENSSL_CMD} req -out $SSL_DIR/"$1".cer -new -newkey rsa:2048 -nodes -keyout $SSL_DIR/private/"$1" -config $SSL_DIR/openssl.conf
-
+    printf "${CYAN}Generating Certificate Signing Request...\n"
+    printf "${CYAN}Using Configuration File ${SSL_DIR}/openssl.conf${END_COLOR}\n"
+    printf ${YELLOW}
+    sudo ${OPENSSL_CMD} req -out $SSL_DIR/"$1".csr -new -newkey rsa:2048 -nodes -keyout $SSL_DIR/"$1".key -config $SSL_DIR/openssl.conf
+    printf ${END_COLOR}
 fi
 
-printf "${YELLOW}Resetting Permissions.${END_COLOR}\n"
-sudo chown root:webadmins -R /etc/httpd/ssl
-sudo chmod 664 $SSL_DIR/"$1".cer
-sudo chmod 664 $SSL_DIR/private/"$1".key
+if [ $? == 0 ]; then
+    printf "${CYAN}Resetting Permissions.${END_COLOR}\n"
+    printf ${YELLOW}
+    sudo chown root:webdevs -R /usr/share/scripts/csr
+    sudo chmod 644 $SSL_DIR/"$1".csr
+    sudo chmod 644 $SSL_DIR/"$1".key
+    printf ${END_COLOR}
+    printf "${CYAN}CSR and Key located in directory: ${YELLOW}${SSL_DIR}${END_COLOR}\n"
+else
+    printf "${RED}ERROR: ${CYAN}Oops, something went wrong. Please investigate and try again.${END_COLOR}\n"
+fi
