@@ -7,7 +7,7 @@ CYAN='\e[0;36m'
 LIGHT_GRAY='\e[0;37m'
 END_COLOR='\e[0m'
 
-SSL_DIR="/usr/local/scripts/csr"
+SSL_DIR="/usr/share/scripts/csr"
 OPENSSL_CMD="/usr/bin/openssl"
 
 if [[ "$1" == "" || "$1" == "--help" ]]; then
@@ -16,10 +16,23 @@ if [[ "$1" == "" || "$1" == "--help" ]]; then
     exit 1
 else
     printf "${CYAN}Generating Certificate Signing Request...\n"
-    printf "${CYAN}Using Configuration File ${SSL_DIR}/openssl.conf${END_COLOR}\n"
+    HOSTNAME=$(hostname)
+    IP=$(/sbin/ip -o -4 addr list ens160 | awk '{print $4}' | cut -d/ -f1)
+    if [ $? == 0 ]; then
+        sudo cp $SSL_DIR/openssl.conf $SSL_DIR/$HOSTNAME-openssl.conf
+        # Edit OpenSSL
+        sed -i "i/REPLACE_WITH_HOSTNAME/$HOSTNAME/g" $SSL_DIR/$HOSTNAME-openssl.conf
+        sed -i "i/REPLACE_WITH_IP/$IP/g" $SSL_DIR/$HOSTNAME-openssl.conf
+        sed -i "i/REPLACE_WITH_EMAIL/sysadmin@orion.lan/g" $SSL_DIR/$HOSTNAME-openssl.conf
+    else
+        sudo cp $SSL_DIR/openssl.conf $SSL_DIR/$HOSTNAME-openssl.conf
+        nano $SSL_DIR/$HOSTNAME-openssl.conf
+    fi
+
     sudo nano $SSL_DIR/openssl.conf
+    printf "${CYAN}Using Configuration File ${SSL_DIR}/openssl.conf${END_COLOR}\n"
     printf ${YELLOW}
-    sudo ${OPENSSL_CMD} req -out $SSL_DIR/"$1".csr -new -newkey rsa:2048 -nodes -keyout $SSL_DIR/"$1".key -config $SSL_DIR/openssl.conf
+    sudo ${OPENSSL_CMD} req -out $SSL_DIR/"$1".csr -new -newkey rsa:2048 -nodes -keyout $SSL_DIR/"$1".key -config $SSL_DIR/$HOSTNAME-openssl.conf
     printf ${END_COLOR}
 fi
 

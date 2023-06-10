@@ -9,7 +9,7 @@ END_COLOR='\e[0m'
 
 # Test if OS is Debian based (Debian, Ubuntu, etc.). Exits if not.
 if [ -f /etc/debian_version ] ; then
-    printf "${YELLOW}Discovered Debian Based OS. Proceeding...${END_COLOR}\n"
+    printf "${CYAN}Discovered Debian Based OS. Proceeding...${END_COLOR}\n"
 else
     printf "${RED}OS is not Debian Based. Terminating.${END_COLOR}\n"
     exit 1
@@ -47,24 +47,21 @@ git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-m
 
 # Base configuration of the the Orion Shell .zshrc
 sed -i 's/plugins=(git)/plugins=(git colorize colored-man-pages python zsh-autosuggestions zsh-syntax-highlighting)/g' ~/.zshrc
-sed -i 's/# alias zshconfig="mate ~\/.zshrc"/alias zshconfig="nano ~\/.zshrc"/g' ~/.zshrc
+sed -i 's/# alias zshconfig="mate ~\/.zshrc"/alias zshconfig="vim ~\/.zshrc"/g' ~/.zshrc
 sed -i 's/# ENABLE_CORRECTION="true"/ENABLE_CORRECTION="true"/g' ~/.zshrc
 sed -i 's/# COMPLETION_WAITING_DOTS="true"/COMPLETION_WAITING_DOTS="true"/g' ~/.zshrc
 echo ZSH_COLORIZE_STYLE=\"solarized-dark\" >> ~/.zshrc
 echo alias grep-fc="\"grep -vE '^$|^#'\"" >> ~/.zshrc
 echo alias view-syslog=\"sudo less /var/log/syslog\" >> ~/.zshrc
-echo export EDITOR=nano >> ~/.zshrc
+echo alias vimconfig="vim ~/.vimrc"
+echo export EDITOR=vim >> ~/.zshrc
 
-# Download miniconda python installation script
-# URL: https://docs.conda.io/en/latest/miniconda.html
-# curl --insecure --proxy <proxy_address>:<port> -Lo Miniconda3-latest-Linux-x86_64.sh https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh && \
-curl -Lo Miniconda3-latest-Linux-x86_64.sh https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
-chmod +x ./Miniconda3-latest-Linux-x86_64.sh
+# Install plug-vim
+curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
 # Changes default shell to zsh
-printf "${YELLOW}"
+printf "${CYAN}Changing the default shell to: ${YELLOW}/usr/bin/zsh${CYAN}\n"
 chsh -s /usr/bin/zsh
-printf "${END_COLOR}"
-printf "${YELLOW}Congratulations! Your Orion Shell Environment is now installed.${END_COLOR}\n"
-printf "${YEllOW}Install miniconda python by running Miniconda3-latest-Linux-x86_64.sh.${END_COLOR}\n"
-printf "${YELLOW}Log out and log back in to activate the shell.${END_COLOR}\n"
+printf "Congratulations! Your Orion Shell Environment is now installed.\n"
+printf "Install miniconda python by running ${YELLOW}./Miniconda3-latest-Linux-x86_64.sh.\n"
+printf "Log out and log back in to activate the shell.${END_COLOR}\n"

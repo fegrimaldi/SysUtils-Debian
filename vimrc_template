@@ -1,0 +1,77 @@
+" Install vim-plugin
+" curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+"
+
+
+
+call plug#begin()
+" The default plugin directory will be as follows:
+" - Vim (Linux/macOS): '~/.vim/plugged'
+" - Vim (Windows): '~/vimfiles/plugged'
+" - Neovim (Linux/macOS/Windows): stdpath('data') . '/plugged'
+" You can specify a custom plugin directory by passing it as the argument
+" - e.g. `call plug#begin('~/.vim/plugged')`
+" - Avoid using standard Vim directory names like 'plugin'
+
+" Make sure you use single quotes
+
+" Shorthand notation; fetches https://github.com/junegunn/vim-easy-align
+" Plug 'junegunn/vim-easy-align'
+
+" Vim-Plug
+
+" Define Plugins
+Plug 'joshdick/onedark.vim'
+Plug 'sheerun/vim-polyglot'
+" Plug 'pangloss/vim-javascript'
+" Plug 'lunacookies/vim-sh'
+" Plug 'vim-python/python-syntax'
+" Plug 'elzr/vim-json'
+" Plug 'othree/html5.vim'
+" Plug 'chr4/nginx.vim'
+
+" Unmanaged plugin (manually installed and updated)
+"
+
+" Initialize plugin system
+" - Automatically executes `filetype plugin indent on` and `syntax enable`.
+call plug#end()
+" You can revert the settings after the call like so:
+" filetype indent off " Disable file-type-specific indentation
+" syntax off " Disable syntax highlighting
+
+" Enable syntax highlighting
+syntax on
+
+" Set tab width to 2 columns.
+set tabstop=2
+
+" Set the colorscheme
+colorscheme onedark
+
+" Show line numbers
+set number
+
+" Highlight cursor line underneath the cursor horizontally.
+set cursorline
+
+" Highlight cursor line underneath the cursor vertically.
+set cursorcolumn
+
+" Disable compatibility with vi which can cause unexpected issues.
+set nocompatible
+
+" Enable type file detection. Vim will be able to try to detect the type of file in use.
+filetype on
+
+" Enable plugins and load plugin for the detected file type.
+filetype plugin on
+
+" Load an indent file for the detected file type.
+filetype indent on
+
+" Show partial command you type in the last line of the screen.
+set showcmd
+
+" Show the mode you are on the last line.
+set showmode
