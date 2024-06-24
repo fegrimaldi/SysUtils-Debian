@@ -13,12 +13,12 @@ sudo apt update
 sudo apt upgrade -y
 sudo apt autoremove -y
 sudo apt autoclean -y
-sudo apt install zsh members tree fonts-powerline fonts-firacode net-tools nmap zip unzip -y
+sudo apt install zsh members tree fonts-powerline fonts-firacode net-tools nmap zip unzip htop -y
 
 # Configure SSH Server: Regenerate Keys
 printf "${YELLOW}Reconfiguring SSH Server and generating new keys.${END_COLOR}\n"
-sudo rm -v /etc/ssh/ssh_host_*
-sudo dpkg-reconfigure openssh-server
+# sudo rm -v /etc/ssh/ssh_host_*
+# sudo dpkg-reconfigure openssh-server
 
 
 printf "${YELLOW}Generating SSH Keys for User: $USER.${END_COLOR}\n"
@@ -28,9 +28,9 @@ printf "${YELLOW}Creating devops group and set scripts directory.: $USER.${END_C
 # ! Test
 sudo groupadd devops
 sudo usermod -a -G devops sysadmin
-sudo mkdir -p /usr/local/scripts
-sudo chown root:devops -R /usr/local/scripts
-sudo chmod g+w /usr/local/scripts
+sudo mkdir -p /opt/silverwolf/scripts
+sudo chown root:devops -R /opt/silverwolf/scripts
+sudo chmod g+w /opt/silverwolf/scripts
 
 
 printf "${RED}It is recommend that you reboot the system now.${END_COLOR}\n"

@@ -7,7 +7,7 @@ CYAN='\e[0;36m'
 LIGHT_GRAY='\e[0;37m'
 END_COLOR='\e[0m'
 
-SSL_DIR="/etc/httpd/ssl"
+SSL_DIR="/opt/silverwolf/scripts/ssl"
 OPENSSL_CMD="/usr/bin/openssl"
 
 if [ "$1" == "" || "$1" == "--help" ]; then

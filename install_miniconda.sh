@@ -14,21 +14,21 @@ curl -Lo Miniconda3-latest-Linux-x86_64.sh https://repo.anaconda.com/miniconda/M
 chmod +x ./Miniconda3-latest-Linux-x86_64.sh
 
 
-printf "${CYAN}Installing Miniconda to /usr/local/miniconda3.${END_COLOR}\n"
-sudo ./Miniconda3-latest-Linux-x86_64.sh -b -p /usr/local/miniconda3 && \
+printf "${CYAN}Installing Miniconda to /opt/miniconda3.${END_COLOR}\n"
+sudo ./Miniconda3-latest-Linux-x86_64.sh -b -p /opt/miniconda3 && \
 
-printf "{CYAN}Modifying permissions on /usr/local/miniconda3.${END_COLOR}\n"
-sudo chown root:devops -R /usr/local/miniconda3 && \
-sudo chmod g+w -R /usr/local/miniconda3 && \
+printf "{CYAN}Modifying permissions on /opt/miniconda3.${END_COLOR}\n"
+sudo chown root:devops -R /opt/miniconda3 && \
+sudo chmod g+w -R /opt/miniconda3 && \
 
-if [ -w /usr/local/miniconda3 ]; then
+if [ -w /opt/miniconda3 ]; then
     printf "${CYAN} Miniconda directory is writeable by current process. Proceeding...${END_COLOR}\n"
 else
     printf "${RED}ERROR: ${YELLOW}Directory is NOT writeable by current process. Terminating.${END_COLOR}\n"
     exit 1
 fi
 printf "${CYAN}Activating Miniconda3.${END_COLOR}\n"
-source /usr/local/miniconda3/bin/activate
+source /opt/miniconda3/bin/activate
 
 
 printf "${CYAN}Initializing bash and zsh with conda.${END_COLOR}\n"
@@ -42,6 +42,7 @@ conda update conda -y
 
 conda update python -y
 
+rm ./Miniconda3-latest-Linux-x86_64.sh
 
 # printf "${CYAN}Installing base python modules.${END_COLOR}\n"
 # pip install -r python_base_reqs.txt
